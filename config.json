@@ -1,0 +1,30 @@
+{
+  "enableGhProxy": false,
+  "defaults": {
+    "includeSubModule": false,
+    "repo": "DreamOfIce/HoYoRandomResources",
+    "resourceUrl": "https://cf.dreamofice.cn/p/HoYoRandom/"
+  },
+  "apis": [
+    {
+      "path": "/img",
+      "type": "media",
+      "resourcePath": "/img"
+    },
+    {
+      "path": "/music",
+      "type": "media",
+      "resourcePath": "/music"
+    },
+    {
+      "path": "/video",
+      "type": "media",
+      "resourcePath": "/video"
+    },
+    {
+      "path": "/hitokoto",
+      "type": "hitokoto",
+      "resourcePath": "/hitokoto"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "rules": {
+    "import/extensions": "off",
+    "operator-linebreak": [
+      "error",
+      "after",
+      {
+        "overrides": {
+          "?": "before",
+          ":": "before"
+        }
+      }
+    ]
+  },
+  "extends": [
+    "eslint-config-prettier",
+    "eslint-config-airbnb-base"
+  ]
+}
