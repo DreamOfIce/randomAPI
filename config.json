@@ -3,7 +3,7 @@
   "defaults": {
     "includeSubModule": false,
     "repo": "DreamOfIce/HoYoRandomResources",
-    "resourceUrl": "https://cf.dreamofice.cn/p/HoYoRandom/"
+    "resourceUrl": "https://cf.dreamofice.cn/p/hoyorandom/"
   },
   "apis": [
     {
