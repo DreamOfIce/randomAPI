@@ -48,7 +48,7 @@ app.use(
 app.use(/^\/$/, async (_req, res, next) => {
   res.send(
     await marked(
-      await readFile(join(rootDir, 'readme.md'), { encoding: 'utf-8' }),
+      await readFile(join(rootDir, 'README.md'), { encoding: 'utf-8' }),
       { async: true },
     ),
   );
