@@ -1,11 +1,9 @@
-import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
 import express from 'express';
-import { marked } from 'marked';
-import { rootDir, config, logger } from './lib/globals.js';
+import { config, logger } from './lib/globals.js';
 import { handleUpdateRequest, update } from './lib/update.js';
-import hitokoto from './lib/hitokoto.js';
-import media from './lib/media.js';
+import { getHomepage } from './lib/utils.js';
+import hitokoto from './api/hitokoto.js';
+import media from './api/media.js';
 import parser from './lib/parser.js';
 
 const app = express();
@@ -45,20 +43,12 @@ app.use(
 );
 
 // homepage
-app.use(/^\/$/, async (_req, res, next) => {
-  res.send(
-    await marked(
-      await readFile(join(rootDir, 'README.md'), { encoding: 'utf-8' }),
-      { async: true },
-    ),
-  );
-  next();
-});
+app.use('^/$', getHomepage);
 
 // initialization
 (async () => {
   // get resources list
-  logger.info('Start getting resources...');
+  logger.info('Initializing resources...');
   await update();
   logger.info('Done.');
   // start server

@@ -15,9 +15,9 @@
 
 ## 链接
 
-> 默认的资源存储在[DreamOfIce/HoYoRandomResources](https://github.com/DreamOfIce/HoYoRandomResources)
-> 详细文档位于[DreamOfIce/HoYoRandom-docs](https://github.com/DreamOfIce/HoYoRandom-docs)
-> 使用 PHP 编写的旧版本:[HoYoRandom-php](https://github.com/DreamOfIce/HoYoRandom-php)(不再更新)
+> 默认的资源存储在[DreamOfIce/HoYoRandomResources](https://github.com/DreamOfIce/HoYoRandomResources)  
+> 详细文档位于[DreamOfIce/HoYoRandom-docs](https://github.com/DreamOfIce/HoYoRandom-docs)  
+> 使用 PHP 编写的旧版本:[HoYoRandom-php](https://github.com/DreamOfIce/HoYoRandom-php)(不再更新)  
 
 ## TODO
 

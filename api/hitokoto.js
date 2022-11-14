@@ -1,6 +1,6 @@
 import iconv from 'iconv-lite';
-import { logger, resources } from './globals.js';
-import { isCategoryInclude } from './utils.js';
+import { logger, resources } from '../lib/globals.js';
+import { isCategoryInclude } from '../lib/utils.js';
 
 const hitokoto = (req, res, next) => {
   const {
