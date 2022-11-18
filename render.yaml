@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: hoyorandom
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: yarn
+    startCommand: yarn start
+    envVars:
+      - key: NODE_VERSION
+        value: lts
+      - key: GITHUB_AUTH
+        sync: false
+      - key: WEBHOOK_SECRECT
+        generateValue: true
