@@ -1,0 +1,91 @@
+name: "Build Images"
+on:
+  release:
+    types: [released]
+
+  push:
+    branches:
+      - dev
+
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "The tag of the image"
+        required: false
+        type: string
+      updateLatest:
+        description: "Update the tag `latest`"
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  get-tags:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Generate tags
+        id: generate-tags
+        with:
+          dispatch_tag: ${{ inputs.tag }}
+          registry_name: "docker.io/dreamofice/hoyorandom swr.cn-south-1.myhuaweicloud.com/dreamofice/hoyorandom"
+          update_latest: ${{ inputs.updateLatest }}
+        run: |
+          update_latest=!${INPUT_IS_DEV} || ${INPUT_UPDATE_LATEST}
+          if ${INPUT_IS_DEV}; then
+            tag='dev';
+          elif [ -n "${INPUT_DISPATCH_TAG}" ]; then
+            tag=${INPUT_DISPATCH_TAG};
+          else
+            tag=$(apt install jq -y && cat package.json | jq .version -j);
+          fi
+          prefix="";
+          for registry in ${INPUT_REGISTRY_NAME}; do
+            echo "${prefix}${registry}:${tag}" >> $GITHUB_OUTPUT;
+            prefix=",";
+            if ${update_latest}; then
+              echo "${prefix}${registry}:latest" >> $GITHUB_OUTPUT;
+            fi
+          done
+      - name: Print logs
+        with:
+          tags: ${{ steps.generate-tags.outputs }}
+        run: echo "Tags:\n${INPUT_TAGS}"
+    outputs:
+      tags: ${{ steps.generate-tags.outputs }}
+
+  build-image:
+    needs: get-version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Get Package Version
+        uses: nyaa8/package-version@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Login to Huaweicloud
+        uses: docker/login-action@v2
+        with:
+          registry: swr.cn-south-1.myhuaweicloud.com
+          username: ${{ secrets.HUAWEICLOUD_USERNAME }}
+          password: ${{ secrets.HUAWEICLOUD_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v3
+        with:
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ needs.get-tags.outputs.tags }}
