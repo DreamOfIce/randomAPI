@@ -1,6 +1,6 @@
 {
   "name": "hoyorandom",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "崩坏3&原神的随机图片、音乐、视频及名台词API",
   "exports": "./index.js",
   "type": "module",
