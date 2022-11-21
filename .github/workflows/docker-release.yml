@@ -3,10 +3,6 @@ on:
   release:
     types: [released]
 
-  push:
-    branches:
-      - dev
-
   workflow_dispatch:
     inputs:
       tag:
@@ -28,36 +24,37 @@ jobs:
 
       - name: Generate tags
         id: generate-tags
-        with:
-          dispatch_tag: ${{ inputs.tag }}
-          registry_name: "docker.io/dreamofice/hoyorandom swr.cn-south-1.myhuaweicloud.com/dreamofice/hoyorandom"
-          update_latest: ${{ inputs.updateLatest }}
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+          REGISTRYS: "docker.io/dreamofice/hoyorandom swr.cn-south-1.myhuaweicloud.com/dreamofice/hoyorandom"
+          UPDATE_LATEST: ${{ env.GITHUB_REF_TYPE == 'tag' || inputs.updateLatest }}
         run: |
-          update_latest=!${INPUT_IS_DEV} || ${INPUT_UPDATE_LATEST}
-          if ${INPUT_IS_DEV}; then
-            tag='dev';
-          elif [ -n "${INPUT_DISPATCH_TAG}" ]; then
-            tag=${INPUT_DISPATCH_TAG};
+          update_latest=${UPDATE_LATEST};
+          if [ -n "${INPUT_TAG}" ]; then
+            tag=${INPUT_TAG};
           else
-            tag=$(apt install jq -y && cat package.json | jq .version -j);
+            sudo apt install jq -y
+            tag="v$(cat package.json | jq .version -j)";
           fi
-          prefix="";
-          for registry in ${INPUT_REGISTRY_NAME}; do
-            echo "${prefix}${registry}:${tag}" >> $GITHUB_OUTPUT;
+          prefix='';
+          tags=''
+          for registry in ${REGISTRYS}; do
+            tags+="${prefix}${registry}:${tag}";
             prefix=",";
             if ${update_latest}; then
-              echo "${prefix}${registry}:latest" >> $GITHUB_OUTPUT;
+              tags+="${prefix}${registry}:latest";
             fi
           done
+          echo "tags=${tags}" >> ${GITHUB_OUTPUT};
       - name: Print logs
-        with:
-          tags: ${{ steps.generate-tags.outputs }}
-        run: echo "Tags:\n${INPUT_TAGS}"
+        env:
+          TAGS: ${{ steps.generate-tags.outputs.tags }}
+        run: echo -e "Tags:\n${TAGS}"
     outputs:
-      tags: ${{ steps.generate-tags.outputs }}
+      tags: ${{ steps.generate-tags.outputs.tags }}
 
   build-image:
-    needs: get-version
+    needs: get-tags
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -65,9 +62,6 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-
-      - name: Get Package Version
-        uses: nyaa8/package-version@v1
 
       - name: Login to DockerHub
         uses: docker/login-action@v2
