@@ -9,7 +9,8 @@
   },
   "scripts": {
     "dev": "node index.js dev",
-    "start": "node index.js"
+    "start": "node index.js",
+    "start-pm2": "pm2 start pm2.config.cjs"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,7 @@
     "崩坏3",
     "原神",
     "Honkai3rd",
-    "GenshinImpack"
+    "GenshinImpact"
   ],
   "author": "冰雪殇璃陌梦(DreamOfIce)",
   "license": "MIT",
