@@ -26,7 +26,7 @@ jobs:
         id: generate-tags
         env:
           INPUT_TAG: ${{ inputs.tag }}
-          REGISTRYS: "docker.io/dreamofice/hoyorandom swr.cn-south-1.myhuaweicloud.com/dreamofice/hoyorandom"
+          REGISTRYS: "docker.io/dreamofice/randomapi swr.cn-south-1.myhuaweicloud.com/dreamofice/randomapi"
           UPDATE_LATEST: ${{ env.GITHUB_REF_TYPE == 'tag' || inputs.updateLatest }}
         run: |
           update_latest=${UPDATE_LATEST};

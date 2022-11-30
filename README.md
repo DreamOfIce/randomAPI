@@ -1,6 +1,6 @@
-# HoYoRandom
+# randomAPI
 
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dreamofice/HoYoRandom) ![GitHub Repo stars](https://img.shields.io/github/stars/dreamofice/HoYoRandom) ![GitHub forks](https://img.shields.io/github/forks/dreamofice/HoYoRandom)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/dreamofice/randomAPI) ![GitHub Repo stars](https://img.shields.io/github/stars/dreamofice/randomAPI) ![GitHub forks](https://img.shields.io/github/forks/dreamofice/randomAPI)
 
 一个使用 node.js 编写的随机 API:
 
@@ -16,18 +16,18 @@
 ## 链接
 
 > 默认的资源存储在[DreamOfIce/HoYoRandomResources](https://github.com/DreamOfIce/HoYoRandomResources)  
-> 详细文档位于[DreamOfIce/HoYoRandom-docs](https://github.com/DreamOfIce/HoYoRandom-docs)  
+> 详细文档位于[DreamOfIce/randomAPI-docs](https://github.com/DreamOfIce/HoYoRandom-docs)  
 > 使用 PHP 编写的旧版本:[HoYoRandom-php](https://github.com/DreamOfIce/HoYoRandom-php)(不再更新)  
 
 ## TODO
 
 - [x] 一言接口
 - [x] 媒体文件接口
-- [ ] 自部署文档
+- [x] 自部署文档
 - [ ] 开发文档
 - [ ] 标签(tag)支持
 - [ ] 统计系统
-- [ ] `TypeScript`重写
+- [ ] `TypeScript`重写(v2.x)
 
 ## API 端点
 
