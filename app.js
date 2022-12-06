@@ -1,7 +1,7 @@
 import express from 'express';
 import { reqLogger } from './lib/logger.js';
 import { handleUpdateRequest, update } from './lib/update.js';
-import { getHomepage } from './lib/utils.js';
+import { generateHomepage } from './lib/utils.js';
 import parser from './lib/parser.js';
 import hitokoto from './api/hitokoto.js';
 import media from './api/media.js';
@@ -52,7 +52,7 @@ function startSever(config, logger, resources) {
   // log request
   app.use('/', ...reqLogger(logger));
   // homepage
-  app.use('^/$', getHomepage);
+  app.use('^/$', generateHomepage);
   const { host, port } = config;
   // start server
   app.listen(port, host, () => {

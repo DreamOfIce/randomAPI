@@ -2,7 +2,7 @@
   "api": {
     "defaults": {
       "repo": "DreamOfIce/HoYoRandomResources",
-      "resourceUrl": "https://cf.dreamofice.cn/p/hoyorandom/"
+      "resourceUrl": "https://cdn.zenless.top/project/hoyorandom/"
     },
     "list": [
       {
