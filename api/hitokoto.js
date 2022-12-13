@@ -1,8 +1,7 @@
 import iconv from 'iconv-lite';
-import { logger, resources } from '../lib/globals.js';
 import { isCategoryInclude } from '../lib/utils.js';
 
-const hitokoto = (req, res, next) => {
+const hitokoto = ({ resources }, req, res, next) => {
   const {
     category = 'all',
     format = 'json',
@@ -10,15 +9,13 @@ const hitokoto = (req, res, next) => {
     seletor = '#hitokoto',
   } = req.parsedParams;
 
-  // check encoding
+  // Check encoding
   if (!iconv.encodingExists(encoding)) {
-    res.status(400).send(`Unsupported encoding:${encoding}`);
-    logger.debug(
-      `[ERROR] ${req.method} ${req.baseUrl}${req.url} Unsupport encoding:${encoding}!`,
-    );
+    res.status(400);
+    next(`Unsupported encoding: ${encoding}`);
   }
 
-  // selete a random hitokoto
+  // Selete a random hitokoto
   const hitokotos = [];
   Object.entries(resources[req.baseUrl]).forEach(([c, h]) => {
     if (isCategoryInclude(c, category)) {
@@ -26,15 +23,13 @@ const hitokoto = (req, res, next) => {
     }
   });
   if (hitokotos.length === 0) {
-    res.status(500).send('No matching hitokoto found');
-    logger.debug(
-      `[ERROR] ${req.method} ${req.baseUrl}${req.url} No matching hitokoto found!`,
-    );
+    res.status(500);
+    next('No matching hitokoto found');
     return;
   }
   const result = hitokotos[Math.floor(Math.random() * hitokotos.length)];
 
-  // send response
+  // Send response
   switch (format) {
     case 'json':
       res
@@ -57,13 +52,10 @@ const hitokoto = (req, res, next) => {
         );
       break;
     default:
-      res.status(400).send(`Invalid format: ${format}`);
-      logger.debug(`[ERROR] Invalid format: ${format}!`);
+      res.status(400);
+      next(`Invalid format: ${format}`);
       break;
   }
-
-  // writing log
-  logger.info(`${req.method} ${req.baseUrl}${req.url} ${res.statusCode}`);
   next();
 };
 

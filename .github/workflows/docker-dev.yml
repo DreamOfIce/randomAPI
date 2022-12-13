@@ -36,4 +36,4 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: docker.io/dreamofice/hoyorandom:dev,swr.cn-south-1.myhuaweicloud.com/dreamofice/hoyorandom:dev
+          tags: docker.io/dreamofice/randomapi:dev,swr.cn-south-1.myhuaweicloud.com/dreamofice/randomapi:dev
